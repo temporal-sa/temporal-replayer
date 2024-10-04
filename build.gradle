@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'application'
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+}
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    javaSDKVersion = '1.25.1'
+}
+
+dependencies {
+    implementation 'io.javalin:javalin:5.6.5'
+    implementation "io.temporal:temporal-sdk:$javaSDKVersion"
+    implementation 'ch.qos.logback:logback-classic:1.5.7'
+    implementation "io.temporal:temporal-testing:$javaSDKVersion"
+    implementation 'org.slf4j:slf4j-api:2.0.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    testImplementation "io.temporal:temporal-testing:$javaSDKVersion"
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.mockito:mockito-core:5.3.1"
+    testImplementation platform("org.junit:junit-bom:5.9.3")
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = 'io.temporal.samples.replay.replayer.WorkflowReplayer'
+}
+
+task execute(type: JavaExec) {
+    mainClass = findProperty("mainClass") ?: ""
+    classpath = sourceSets.main.runtimeClasspath
+    args project.hasProperty("arg") ? project.getProperty("arg") : ""
+}

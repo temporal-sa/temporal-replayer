@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app.kubernetes.io/build: "1"
+    app.kubernetes.io/component: worker
+    app.kubernetes.io/name: temporal-replayer
+    app.kubernetes.io/version: v1.0
+  name: temporal-replayer
+spec:
+  template:
+    spec:
+      containers:
+      - env:
+        - name: TEMPORAL_WORKFLOW_ID
+          value: HelloWorkflow
+        - name: TEMPORAL_ADDRESS
+          value: helloworld.sdvdw.tmprl.cloud:7233
+        - name: TEMPORAL_TASK_QUEUE
+          value: hello
+        - name: TEMPORAL_NAMESPACE
+          value: helloworld.sdvdw
+        - name: TEMPORAL_CERT_PATH
+          value: /etc/certs/tls.crt
+        - name: TEMPORAL_KEY_PATH
+          value: /etc/certs/tls.key
+        name: temporal-replayer
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        image: ktenzer/temporal-replayer:v1.0
+        volumeMounts:
+        - mountPath: /etc/certs
+          name: certs
+      volumes:
+      - name: certs
+        secret:
+          defaultMode: 420
+          secretName: temporal-tls
+      restartPolicy: Never
+  backoffLimit: 4

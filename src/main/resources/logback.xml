@@ -1,0 +1,13 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- WorkflowId and ActivityId are keys populated by JavaSDK into MDC context -->
+            <!-- See io.temporal.internal.logging.LoggerTag for a full list of keys -->
+            <pattern>%d{HH:mm:ss.SSS} {%X{WorkflowId} %X{ActivityId}} [%thread] %-5level %logger{36} - %msg %n</pattern>
+        </encoder>
+    </appender>
+    <logger name="io.grpc.netty" level="INFO"/>
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
