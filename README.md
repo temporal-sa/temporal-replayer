@@ -1,8 +1,7 @@
 # Temporal Replayer
 Perform a Temporal Workflow Replay as part of k8s deployment.
 
-An init container is used to run Workflow Replay. The event history is pulled from prior execution with previous release
-against new release and code updates. It ensures that any changes don't break Workflow determinism. 
+An init container is used to run Workflow Replay. The event history is pulled from prior execution with previous release, against new release and code updates. It ensures that any new code changes to Workflow, don't break Workflow determinism. 
 
 If the Workflow Replay fails, the init container will error and the deployment of the new worker won't occur.
 
