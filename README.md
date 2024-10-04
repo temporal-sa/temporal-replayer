@@ -33,7 +33,7 @@ This will deploy new code and do Workflow replay test as part of init container.
 $ kubectl create -f yaml/deployment.yaml -n <K8s Namespace>
 ```
 
-## Deployment Scenario Workflow Replay Succeeds
+## Deployment Scenario: Workflow Replay Succeeds
 Shows scenario where Workflow replay succeeds.
 
 ```bash
@@ -52,7 +52,7 @@ NAME                                    READY   STATUS    RESTARTS   AGE
 temporal-hello-worker-6dbb76577-j8lq8   1/1     Running   0          74s
 ```
 
-## Deployment Scenario Workflow Replay Fails
+## Deployment Scenario: Workflow Replay Fails
 Shows scenario where Workflow replay fails.
 
 ```bash
