@@ -1,0 +1,20 @@
+# Use a base image with Java and Gradle installed
+FROM gradle:jdk17-jammy AS build
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the Gradle files
+COPY gradle gradle
+COPY gradlew .
+COPY build.gradle .
+COPY settings.gradle .
+
+# Copy the source code
+COPY ./src /app/src
+
+# Download dependencies and build the project
+#RUN ./gradlew build --no-daemon
+
+# Run the desired Java class
+CMD ["sh", "-c", "./gradlew -q execute -PmainClass=io.temporal.samples.replay.worker.TemporalWorker"]

@@ -29,6 +29,30 @@ spec:
         app.kubernetes.io/name: temporal-hello-worker
         app.kubernetes.io/version: v2.0
     spec:
+      initContainers:
+      - env:
+        - name: TEMPORAL_WORKFLOW_ID
+          value: HelloWorkflow
+        - name: TEMPORAL_ADDRESS
+          value: helloworld.sdvdw.tmprl.cloud:7233
+        - name: TEMPORAL_TASK_QUEUE
+          value: hello
+        - name: TEMPORAL_NAMESPACE
+          value: helloworld.sdvdw
+        - name: TEMPORAL_CERT_PATH
+          value: /etc/certs/tls.crt
+        - name: TEMPORAL_KEY_PATH
+          value: /etc/certs/tls.key
+        name: temporal-replayer
+        image: ktenzer/temporal-replayer:v1.0
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/certs
+          name: certs
       containers:
       - env:
         - name: TEMPORAL_ADDRESS
@@ -41,10 +65,10 @@ spec:
           value: /etc/certs/tls.crt
         - name: TEMPORAL_KEY_PATH
           value: /etc/certs/tls.key
-        workingDir: /app/src
-        image: ktenzer/temporal-hello:v1.0
+        image: ktenzer/temporal-hello-worker:v1.0
         imagePullPolicy: Always
         name: temporal-hello-worker
+        imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
         terminationMessagePath: /dev/termination-log

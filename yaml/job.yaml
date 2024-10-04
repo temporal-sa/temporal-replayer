@@ -4,9 +4,9 @@ metadata:
   labels:
     app.kubernetes.io/build: "1"
     app.kubernetes.io/component: worker
-    app.kubernetes.io/name: temporal-replayer
+    app.kubernetes.io/name: temporal-hello-starter
     app.kubernetes.io/version: v1.0
-  name: temporal-replayer
+  name: temporal-hello-starter
 spec:
   template:
     spec:
@@ -24,15 +24,9 @@ spec:
           value: /etc/certs/tls.crt
         - name: TEMPORAL_KEY_PATH
           value: /etc/certs/tls.key
-        name: temporal-replayer
-        resources:
-          limits:
-            cpu: 500m
-            memory: 500Mi
-          requests:
-            cpu: 100m
-            memory: 100Mi
-        image: ktenzer/temporal-replayer:v1.0
+        name: temporal-hello-starter
+        image: ktenzer/temporal-hello-starter:v1.0
+        imagePullPolicy: Always
         volumeMounts:
         - mountPath: /etc/certs
           name: certs
