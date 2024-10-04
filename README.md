@@ -1,4 +1,7 @@
 # Temporal Replayer
+The temporal-replayer is a sample that shows you how to safely attempt a rollout of new workflow code and ensure it doesn't cause non-determinism errors for existing in-flight workflows. Success with temporal-replayer means you can proceed with replacing your old workers with your new workers (running your new workflow code) with peace of mind that your in-progress and future workflows will complete.
+
+## How it works?
 Perform a Temporal Workflow Replay as part of k8s deployment.
 
 An init container is used to run Workflow Replay. The event history is pulled from prior execution with previous release, against new release and code updates. It ensures that any new code changes to Workflow, don't break Workflow determinism. 
