@@ -20,8 +20,8 @@ TEMPORAL_CERT_PATH=/etc/certs/tls.crt
 TEMPORAL_KEY_PATH=/etc/certs/tls.key
 ```
 
-## Run Workflow (using k8s job)
-This will create a HelloWorkflow with existing code. This is just so you have existing Workflow event history.
+## Step 1: Run a HelloWorkflow (using k8s job)
+This will create a HelloWorkflow with v1 code. This is just so you have existing Workflow event history.
 
 ![Workflow](workflow.png)
 
@@ -29,15 +29,15 @@ This will create a HelloWorkflow with existing code. This is just so you have ex
 $ kubectl create -f yaml/job.yaml -n <K8s Namespace>
 ```
 
-## Deployment
-This will deploy new code and do Workflow replay test as part of init container.
+## Step 2: Deploy v1
+Deploying v1 will deploy v1 code and perform replay using event history recorded in step 1.
 
 ```bash
-$ kubectl create -f yaml/deployment.yaml -n <K8s Namespace>
+$ kubectl create -f yaml/deployment-v1.yaml -n <K8s Namespace>
 ```
 
-## Deployment Scenario: Workflow Replay Succeeds
-Shows scenario where Workflow replay succeeds.
+### Workflow Replay Succeeds
+The code path for v1 is same as event history from step 1.
 
 ```bash
 kubectl get pod -n temporal-workflow-replayer
@@ -55,8 +55,15 @@ NAME                                    READY   STATUS    RESTARTS   AGE
 temporal-hello-worker-6dbb76577-j8lq8   1/1     Running   0          74s
 ```
 
-## Deployment Scenario: Workflow Replay Fails
-Shows scenario where Workflow replay fails.
+## Step 3: Deploy v2
+Deploying v2 will deploy v2 code and perform replay using event history generated from step 1 (which is v1 code).
+
+```bash
+$ kubectl create -f yaml/deployment-v1.yaml -n <K8s Namespace>
+```
+
+### Workflow Replay Fails
+The code path in v2 is different from event history recorded in step 1.
 
 ```bash
 kubectl get pod -n temporal-workflow-replayer
@@ -67,6 +74,14 @@ temporal-hello-worker-59d6b8c8f-f7vp8   0/1     Init:0/1      0          3s
 ```bash
 NAME                                    READY   STATUS       RESTARTS   AGE
 temporal-hello-worker-59d6b8c8f-f7vp8   0/1     Init:Error   0          74s
+```
+
+```bash
+kubectl logs -f temporal-hello-worker-59d6b8c8f-f7vp8 -c temporal-replayer -n temporal-workflow-replayer
+
+17:23:38.070 { } [main] ERROR i.t.s.r.replayer.WorkflowReplayer - Failed to replay workflow HelloWorkflow
+
+FAILURE: Build failed with an exception.
 ```
 
 
