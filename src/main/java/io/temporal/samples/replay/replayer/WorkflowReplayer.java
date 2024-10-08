@@ -64,6 +64,7 @@ public class WorkflowReplayer {
       log.info("Replay test successful");
       System.exit(0);
     } catch (Exception e) {
+      log.error(e.getMessage());
       throw new RuntimeException("Failed to replay workflowId " + workflowId + " " + e);
     } finally {
       System.exit(1);
