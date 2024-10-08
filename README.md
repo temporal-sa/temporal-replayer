@@ -74,6 +74,7 @@ temporal-hello-worker-59d6b8c8f-f7vp8   0/1     Init:0/1      0          3s
 ```
 
 ```bash
+$ kubectl get pod -n temporal-workflow-replayer
 NAME                                    READY   STATUS       RESTARTS   AGE
 temporal-hello-worker-59d6b8c8f-f7vp8   0/1     Init:Error   0          74s
 ```
