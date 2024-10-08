@@ -42,7 +42,7 @@ $ kubectl create -f yaml/deployment-v1.yaml -n <K8s Namespace>
 Replay will succeed since the workflow code path v1 follows the recorded event history in step 1.
 
 ```bash
-kubectl get pod -n temporal-workflow-replayer
+$ kubectl get pod -n temporal-workflow-replayer
 NAME                                    READY   STATUS        RESTARTS   AGE
 temporal-hello-worker-6dbb76577-j8lq8   0/1     Init:0/1      0          2s
 ```
@@ -68,7 +68,7 @@ $ kubectl create -f yaml/deployment-v2.yaml -n <K8s Namespace>
 Replay will fail since the event history from step 1 no longer follows the workflow code path. Inspecting the init container logs will show the replay failure.
 
 ```bash
-kubectl get pod -n temporal-workflow-replayer
+$ kubectl get pod -n temporal-workflow-replayer
 NAME                                    READY   STATUS        RESTARTS   AGE
 temporal-hello-worker-59d6b8c8f-f7vp8   0/1     Init:0/1      0          3s
 ```
@@ -79,7 +79,7 @@ temporal-hello-worker-59d6b8c8f-f7vp8   0/1     Init:Error   0          74s
 ```
 
 ```bash
-kubectl logs -f temporal-hello-worker-59d6b8c8f-f7vp8 -c temporal-replayer -n temporal-workflow-replayer
+$ kubectl logs -f temporal-hello-worker-59d6b8c8f-f7vp8 -c temporal-replayer -n temporal-workflow-replayer
 
 ...
 17:23:38.070 { } [main] ERROR i.t.s.r.replayer.WorkflowReplayer - Failed to replay workflow HelloWorkflow
