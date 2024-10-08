@@ -35,6 +35,8 @@ import io.temporal.workflow.WorkflowInterface;
 import io.temporal.workflow.WorkflowMethod;
 
 import java.time.Duration;
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +65,7 @@ public class Hello {
      * Execution completes when this method finishes execution.
      */
     @WorkflowMethod
-    String getGreeting(String name);
+    String getGreetings(String name);
   }
 
   /**
@@ -80,8 +82,11 @@ public class Hello {
   public interface HelloActivities {
 
     // Define your activity method which can be called during workflow execution
-    @ActivityMethod(name = "greet")
-    String composeGreeting(String greeting, String name);
+    @ActivityMethod(name = "GreetingOne")
+    String composeGreetingOne(String greeting, String name);
+
+    @ActivityMethod(name = "GreetingTwo")
+    String composeGreetingTwo(String greeting, String name);
   }
 
   // Define the workflow implementation which implements our getGreeting workflow method.
@@ -103,9 +108,11 @@ public class Hello {
             ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofSeconds(2)).build());
 
     @Override
-    public String getGreeting(String name) {
+    public String getGreetings(String name) {
       // This is a blocking call that returns only after the activity has completed.
-      return activities.composeGreeting("Hello", name);
+      String greetingOne = activities.composeGreetingOne("Hello", name);
+      String greetingTwo = activities.composeGreetingTwo("Guten Tag", name);
+      return greetingOne + " " + greetingTwo;
     }
   }
 
@@ -113,10 +120,16 @@ public class Hello {
   public static class HelloActivitiesImpl implements HelloActivities {
 
     @Override
-    public String composeGreeting(String greeting, String name) {
+    public String composeGreetingOne(String greeting, String name) {
       log.info("Composing greeting...");
       return greeting + " " + name + "!";
     }
+
+    @Override
+    public String composeGreetingTwo(String greeting, String name) {
+      log.info("Composing greeting...");
+      return greeting + " " + name + "!";
+    }    
   }
 
   /**
@@ -185,7 +198,7 @@ public class Hello {
      * without waiting synchronously for its result.
      */
 
-    String greeting = workflow.getGreeting("World");
+    String greeting = workflow.getGreetings("World");
 
     // Display workflow execution results
     System.out.println(greeting);

@@ -108,9 +108,11 @@ public class HelloTest {
             ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofSeconds(2)).build());
 
     @Override
-    public String getGreeting(String name) {
+    public String getGreetings(String name) {
       Workflow.sleep(100);
-      return activities.composeGreeting("Hello", name);
+      String greetingOne = activities.composeGreetingOne("Hello", name);
+      String greetingTwo = activities.composeGreetingTwo("Guten Tag", name);
+      return greetingOne + " " + greetingTwo;
     }
   }
 }
