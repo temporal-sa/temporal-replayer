@@ -61,7 +61,7 @@ temporal-hello-worker-6dbb76577-j8lq8   1/1     Running   0          74s
 Deploying [v2](https://github.com/temporal-sa/temporal-replayer/blob/v2/src/main/java/io/temporal/samples/replay/Hello.java#L113) will deploy v2 code which has workflow activity order (GreetingTwo, GreetingOne). Replay will be performed using event history generated from step 1.
 
 ```bash
-$ kubectl create -f yaml/deployment-v1.yaml -n <K8s Namespace>
+$ kubectl create -f yaml/deployment-v2.yaml -n <K8s Namespace>
 ```
 
 ### Workflow Replay Fails
