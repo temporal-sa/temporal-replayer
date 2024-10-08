@@ -21,7 +21,7 @@ TEMPORAL_KEY_PATH=/etc/certs/tls.key
 ```
 
 ## Step 1: Run a HelloWorkflow (using k8s job)
-This will create a HelloWorkflow with v1 code. This is just so you have existing Workflow event history.
+This will create a HelloWorkflow with v1 code. This is just so you have existing Workflow event history. Notice the event history activity order (GreetingOne, GreetingTwo).
 
 ```bash
 $ kubectl create -f yaml/job.yaml -n <K8s Namespace>
@@ -32,7 +32,7 @@ $ kubectl create -f yaml/job.yaml -n <K8s Namespace>
 ![Event History](static/event_history.png)
 
 ## Step 2: Deploy v1
-Deploying [v1](https://github.com/temporal-sa/temporal-replayer/blob/v1/src/main/java/io/temporal/samples/replay/Hello.java#L113) will deploy v1 code which has workflow activity order (composeGreetingOne, composeGreetingTwo). Replay will be performed using event history generated from step 1.
+Deploying [v1](https://github.com/temporal-sa/temporal-replayer/blob/v1/src/main/java/io/temporal/samples/replay/Hello.java#L113) will deploy v1 code which has workflow activity order (GreetingOne, GreetingTwo). Replay will be performed using event history generated from step 1.
 
 ```bash
 $ kubectl create -f yaml/deployment-v1.yaml -n <K8s Namespace>
@@ -58,7 +58,7 @@ temporal-hello-worker-6dbb76577-j8lq8   1/1     Running   0          74s
 ```
 
 ## Step 3: Deploy v2
-Deploying [v2](https://github.com/temporal-sa/temporal-replayer/blob/v2/src/main/java/io/temporal/samples/replay/Hello.java#L113) will deploy v2 code which has workflow activity order (composeGreetingTwo, composeGreetingOne). Replay will be performed using event history generated from step 1.
+Deploying [v2](https://github.com/temporal-sa/temporal-replayer/blob/v2/src/main/java/io/temporal/samples/replay/Hello.java#L113) will deploy v2 code which has workflow activity order (GreetingTwo, GreetingOne). Replay will be performed using event history generated from step 1.
 
 ```bash
 $ kubectl create -f yaml/deployment-v1.yaml -n <K8s Namespace>
