@@ -44,7 +44,7 @@ public class WorkflowReplayer {
     }
   }
 
-  private WorkflowExecutionHistory getWorkflowHistory(String workflowId, WorkflowClient workflowClient) {
+  public WorkflowExecutionHistory getWorkflowHistory(String workflowId, WorkflowClient workflowClient) {
     return workflowClient.fetchHistory(workflowId);
   }
 

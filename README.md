@@ -10,6 +10,8 @@ If the Workflow Replay fails, the init container will error and the deployment o
 
 If Workflow Replay succeeds, the deployment of the new worker code will occur.
 
+Note: you can also do this inside Worker itself and the TemporalWorkerSelfReplay shows that example.
+
 ## Environment Settings
 ```bash
 TEMPORAL_WORKFLOW_ID=HelloWorkflow
